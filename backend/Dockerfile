@@ -30,6 +30,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # TODO: Implement scripts
 # COPY ./scripts /app/scripts
 
+COPY ./backend/pyproject.toml /app/backend/
+
 # Copy application code
 COPY ./backend/app /app/backend/app
 

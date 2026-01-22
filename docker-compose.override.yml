@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     # Don't restart automatically in development
@@ -36,7 +34,7 @@ services:
       watch:
         - path: ./backend
           action: sync
-          target: /app
+          target: /app/backend
           ignore:
             - ./backend/.venv
             - .venv
