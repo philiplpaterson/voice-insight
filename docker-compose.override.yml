@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres:
+    # Don't restart automatically in development
+    restart: "no"
+    ports:
+      - "5432:5432"
+
+  redis:
+    restart: "no"
+    ports:
+      - "6379:6379"
+
+  backend:
+    restart: "no"    
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    
+    ports:
+      - "8000:8000"
+    
+    # Hot reload command (recommended for watch mode)
+    command:
+      - fastapi
+      - run
+      - --reload
+      - app/main.py
+    
+    # Alternative: Keep container alive for manual commands (uncomment to use)
+    # command: sleep infinity
+    
+    # Configure watch for automatic file syncing
+    develop:
+      watch:
+        - path: ./backend
+          action: sync
+          target: /app
+          ignore:
+            - ./backend/.venv
+            - .venv
+            - __pycache__
+        
+        # Rebuild on dependency changes
+        - path: ./pyproject.toml
+          action: rebuild
+        
+        - path: ./backend/pyproject.toml
+          action: rebuild
+        
+        - path: ./uv.lock
+          action: rebuild
+
+
