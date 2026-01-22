@@ -1,0 +1,28 @@
+[project]
+name = "app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "alembic==1.18.1",
+    "arq==0.26.3",
+    "assemblyai==0.48.4",
+    "asyncpg==0.31.0",
+    "fastapi[standard]<1.0.0,>=0.114.2",
+    "httpx==0.28.1",
+    "itsdangerous>=2.2.0",
+    "litellm==1.81.0",
+    "openai==2.15.0",
+    "pydantic>2.0",
+    "pydantic-settings<3.0.0,>=2.2.1",
+    "pydub==0.25.1",
+    "python-dotenv==1.2.1",
+    "python-jose[cryptography]==3.5.0",
+    "python-multipart==0.0.21",
+    "redis<6",
+    "sqlalchemy==2.0.45",
+    "sqlmodel>=0.0.31",
+    "tqdm>=4.67.1",
+    "uvicorn[standard]==0.40.0",
+]
