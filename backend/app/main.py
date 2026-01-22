@@ -1,14 +1,33 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
+from app.core.db import close_db, init_db
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Application lifespan handler.
+
+    Startup: Initialize database tables
+    Shutdown: Close database connections
+    """
+    # Startup
+    await init_db()
+    yield
+    # Shutdown
+    await close_db()
 
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    description="Voice-First Audio Call Intelligence. Upload, transcribe, and analyze calls.",
+    version="0.1.0",
+    lifespan=lifespan,
 )
 
 if settings.BACKEND_CORS_ORIGINS:
@@ -32,3 +51,8 @@ def root() -> dict:
         "version": "0.1.0",
         "docs": f"{settings.API_V1_STR}/docs",
     }
+
+@app.get("/health")
+async def health():
+    """Health check endpoint."""
+    return {"status": "healthy"}

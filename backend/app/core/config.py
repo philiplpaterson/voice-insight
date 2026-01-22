@@ -71,5 +71,6 @@ class Settings(BaseSettings):
     # CORS
     BACKEND_CORS_ORIGINS: list[str] = ["http://localhost", "http://localhost:5173"]
 
+    DEBUG: bool = False
 
 settings = Settings()  # type: ignore
